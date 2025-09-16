@@ -1,0 +1,54 @@
+name: admin_mobile
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.0
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  http: ^1.5.0
+  flutter_lints: ^5.0.0
+
+
+flutter:
+  assets:
+    - assets/icons/
+    - assets/icons/cook_table/
+    - assets/icons/category/
+    - assets/icons/fruit/
+    - assets/icons/vegetables/
+    - assets/icons/meats/
+    - assets/icons/seafood/
+    - assets/icons/dairyMilk/
+    - assets/icons/drink/
+    - assets/icons/alcohol/
+    - assets/icons/sauce/
+    - assets/icons/spices/
+    - assets/icons/bread/
+    - assets/icons/desserts/
+    - assets/icons/nuts/
+    - assets/icons/grains/
+    - assets/icons/logo/
+    - assets/icons/cooking/
+    - assets/icons/icon_app/
+    - assets/animations/login.json
+    - assets/animations/order-complete-car-delivery-animation.json
+    - assets/animations/register.json
+    - assets/animations/Green Login.json
+    - assets/animations/Jurupoles - Login.json
+    - assets/animations/j28uCA3Jg9.json
+  uses-material-design: true
+
+
