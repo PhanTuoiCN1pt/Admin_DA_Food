@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:admin_mobile/users/user_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../connect/api_url.dart';
+
 class UserService {
-  static const String baseUrl = "http://192.168.0.106:5000/api/users";
+  static String baseUrl = "$apiUrl/api/users";
 
   /// Lấy tất cả người dùng
   Future<List<UserModel>> getAllUsers() async {

@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:admin_mobile/recipes/recipe_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../connect/api_url.dart';
+
 class RecipeService {
-  final String baseUrl =
-      "http://192.168.0.106:5000/admin/recipes"; // Android Emulator
+  final String baseUrl = "$apiUrl/admin/recipes"; // Android Emulator
 
   Future<List<Recipe>> getAllRecipes() async {
     final res = await http.get(Uri.parse(baseUrl));
