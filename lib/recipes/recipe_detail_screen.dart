@@ -31,9 +31,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
               icon: Image.asset(
-                "assets/icons/icon_app/wrench.png",
-                width: 30,
-                height: 30,
+                "assets/icons/recipe/list.png",
+                width: 28,
+                height: 28,
               ),
               onPressed: () async {
                 final updated = await Navigator.push(

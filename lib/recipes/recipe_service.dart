@@ -9,7 +9,7 @@ class RecipeService {
   final String baseUrl = "$apiUrl/admin/recipes"; // Android Emulator
 
   Future<List<Recipe>> getAllRecipes() async {
-    final res = await http.get(Uri.parse(baseUrl));
+    final res = await http.get(Uri.parse("$baseUrl/all"));
     if (res.statusCode == 200) {
       final List data = jsonDecode(res.body)["recipes"];
       return data.map((e) => Recipe.fromJson(e)).toList();

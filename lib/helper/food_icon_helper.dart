@@ -1,7 +1,6 @@
 import 'emun.dart';
 
 class FoodIconHelper {
-  // Lấy FoodType từ tên tiếng Việt
   static FoodType getFoodType(String name) {
     switch (name.toLowerCase()) {
       // ----- Trái cây -----
@@ -456,7 +455,6 @@ class FoodIconHelper {
     }
   }
 
-  // Trả về đường dẫn icon theo FoodType (đã bỏ assets/)
   static String getIcon(FoodType type) {
     switch (type) {
       // ----- Trái cây -----

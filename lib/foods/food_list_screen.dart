@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'add_food_screen.dart';
 import 'category_model.dart';
 import 'food_edit_screen.dart';
 import 'food_service.dart';
@@ -14,26 +15,25 @@ class FoodListScreen extends StatefulWidget {
 
 class _FoodListScreenState extends State<FoodListScreen> {
   final foodService = FoodService();
-  late Future<Category> categoryFuture;
+  late Future<List<SubCategory>> subCategoryFuture;
 
   @override
   void initState() {
     super.initState();
-    _reloadCategory();
+    subCategoryFuture = foodService.getSubCategories(widget.categoryId);
   }
 
-  void _reloadCategory() {
+  void _reloadSubCategory() {
     setState(() {
-      categoryFuture = foodService.getCategoryById(widget.categoryId);
+      subCategoryFuture = foodService.getSubCategories(widget.categoryId);
     });
   }
 
-  // 👉 Thêm subCategory
   Future<void> _addSubCategory() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => FoodEditScreen(categoryId: widget.categoryId),
+        builder: (_) => AddFoodScreen(categoryId: widget.categoryId),
       ),
     );
 
@@ -44,7 +44,8 @@ class _FoodListScreenState extends State<FoodListScreen> {
         icon: result["icon"],
       );
       await foodService.addSubCategory(widget.categoryId, sub);
-      _reloadCategory();
+
+      _reloadSubCategory();
     }
   }
 
@@ -68,7 +69,7 @@ class _FoodListScreenState extends State<FoodListScreen> {
         icon: result["icon"],
       );
       await foodService.updateSubCategory(widget.categoryId, sub.id, updated);
-      _reloadCategory();
+      _reloadSubCategory();
     }
   }
 
@@ -93,7 +94,7 @@ class _FoodListScreenState extends State<FoodListScreen> {
 
     if (confirm == true) {
       await foodService.deleteSubCategory(widget.categoryId, subId);
-      _reloadCategory();
+      _reloadSubCategory();
     }
   }
 
@@ -108,55 +109,51 @@ class _FoodListScreenState extends State<FoodListScreen> {
         titleSpacing: 0,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/icon_app/add.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               onPressed: _addSubCategory,
             ),
           ),
         ],
       ),
-      body: FutureBuilder<Category>(
-        future: categoryFuture,
+      body: FutureBuilder<List<SubCategory>>(
+        future: subCategoryFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (!snapshot.hasData) {
-            return const Center(child: Text("Không tìm thấy thực phẩm"));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text("Không có thực phẩm"));
           }
 
-          final category = snapshot.data!;
+          final subs = snapshot.data!;
           return ListView.separated(
-            itemCount: category.subCategories.length,
-            separatorBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(left: 16.0, right: 16),
-              child: const Divider(thickness: 1, color: Colors.grey, height: 1),
+            itemCount: subs.length,
+            separatorBuilder: (context, index) => const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Divider(thickness: 1, color: Colors.grey, height: 1),
             ),
             itemBuilder: (context, index) {
-              final sub = category.subCategories[index];
+              final sub = subs[index];
               return ListTile(
                 leading: sub.icon.isNotEmpty
                     ? Image.asset(sub.icon, width: 32, height: 32)
-                    : const Icon(Icons.arrow_right),
+                    : const Icon(Icons.fastfood),
                 title: Text(sub.label),
-                trailing: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == "edit") {
-                      _editSubCategory(sub);
-                    } else if (value == "delete") {
-                      _deleteSubCategory(sub.id);
-                    }
-                  },
-                  itemBuilder: (_) => const [
-                    PopupMenuItem(value: "edit", child: Text("Sửa")),
-                    PopupMenuItem(value: "delete", child: Text("Xóa")),
-                  ],
+                onTap: () => _editSubCategory(sub),
+                trailing: IconButton(
+                  icon: Image.asset(
+                    "assets/icons/icon_app/garbage.png",
+                    width: 26,
+                    height: 26,
+                  ),
+                  onPressed: () => _deleteSubCategory(sub.id),
                 ),
               );
             },

@@ -4,6 +4,7 @@ class Recipe {
   final List<dynamic> ingredients;
   final List<dynamic> instructions;
   final String? category;
+  final String? subCategory;
   final String? location;
   final String? image;
 
@@ -13,6 +14,7 @@ class Recipe {
     required this.ingredients,
     required this.instructions,
     this.category,
+    this.subCategory,
     this.location,
     this.image,
   });
@@ -30,8 +32,10 @@ class Recipe {
           )
           .toList(),
       instructions: List<String>.from(json["instructions"] ?? []),
-      category: json["category"] ?? "",
+      category: json["category"],
+      subCategory: json['subCategory'],
       image: json["image"] ?? "",
+      location: json["location"] ?? "",
     );
   }
 
@@ -41,6 +45,7 @@ class Recipe {
       "ingredients": ingredients,
       "instructions": instructions,
       "category": category,
+      "subCategory": subCategory,
       "location": location,
       "image": image,
     };

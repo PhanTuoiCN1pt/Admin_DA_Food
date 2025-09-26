@@ -10,7 +10,7 @@ class UserService {
 
   /// Lấy tất cả người dùng
   Future<List<UserModel>> getAllUsers() async {
-    final response = await http.get(Uri.parse(baseUrl));
+    final response = await http.get(Uri.parse("$baseUrl/all"));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);

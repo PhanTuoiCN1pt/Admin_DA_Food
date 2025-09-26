@@ -34,17 +34,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Smart Fridge Admin")),
+      appBar: AppBar(
+        title: const Text(
+          "Tủ lạnh thông minh",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 5.0),
+            child: Image.asset(
+              "assets/icons/icon_app/logo_app.png",
+              width: 65,
+              height: 65,
+            ),
+          ),
+        ],
+      ),
       body: IndexedStack(index: _selectedIndex, children: _screens),
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(child: Text("Smart Fridge Admin")),
+            const DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Admin",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  // Logo để dưới chữ Admin
+                  Image(
+                    image: AssetImage("assets/icons/icon_app/logo_app.png"),
+                    width: 100,
+                    height: 100,
+                  ),
+                ],
+              ),
+            ),
             ListTile(
               leading: Image.asset(
                 "assets/icons/icon_app/dashboard.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               title: const Text("Dashboard"),
               onTap: () => _onSelect(0),
@@ -52,8 +87,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: Image.asset(
                 "assets/icons/icon_app/personal-information.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               title: const Text("Quản lý Người dùng"),
               onTap: () => _onSelect(1),
@@ -61,8 +96,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: Image.asset(
                 "assets/icons/category/diet.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               title: const Text("Quản lý Thực phẩm"),
               onTap: () => _onSelect(2),
@@ -70,17 +105,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: Image.asset(
                 "assets/icons/icon_app/cooking.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               title: const Text("Quản lý Món ăn"),
               onTap: () => _onSelect(3),
             ),
-            // ListTile(
-            //   leading: const Icon(Icons.notifications),
-            //   title: const Text("Quản lý Thông báo"),
-            //   onTap: () => _onSelect(4),
-            // ),
           ],
         ),
       ),

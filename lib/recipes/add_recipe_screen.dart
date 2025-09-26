@@ -16,6 +16,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
   final _nameController = TextEditingController();
   final _categoryController = TextEditingController();
+  final _subCategoryController = TextEditingController();
   final List<TextEditingController> _ingredientNameControllers = [];
   final List<TextEditingController> _ingredientQuantityControllers = [];
   final List<TextEditingController> _instructionControllers = [];
@@ -26,6 +27,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   void dispose() {
     _nameController.dispose();
     _categoryController.dispose();
+    _subCategoryController.dispose();
     for (var c in _ingredientNameControllers) c.dispose();
     for (var c in _ingredientQuantityControllers) c.dispose();
     for (var c in _instructionControllers) c.dispose();
@@ -39,6 +41,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       id: "",
       name: _nameController.text.trim(),
       category: _categoryController.text.trim(),
+      subCategory: _subCategoryController.text.trim(),
       ingredients: List.generate(_ingredientNameControllers.length, (i) {
         return {
           "name": _ingredientNameControllers[i].text.trim(),
@@ -58,7 +61,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("✅ Thêm recipe thành công")));
-      Navigator.pop(context, created); // Trả về recipe đã lưu trên DB
+      Navigator.pop(context, created);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -84,8 +87,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/icon_app/save.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               onPressed: _isLoading ? null : _saveRecipe,
             ),
@@ -101,26 +104,76 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               children: [
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: "Tên món",
-                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15), // bo góc 15
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                    ),
+                    filled: true, // tô nền nhẹ
+                    fillColor: Colors.grey[100], // màu nền nhẹ
                   ),
                   validator: (value) =>
                       value == null || value.isEmpty ? "Nhập tên món ăn" : null,
                 ),
                 const SizedBox(height: 20),
 
+                // Category
                 TextFormField(
                   controller: _categoryController,
-                  decoration: const InputDecoration(
-                    labelText: "Phân loại",
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: "Nguyên liệu chính",
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[100],
                   ),
                   validator: (value) =>
-                      value == null || value.isEmpty ? "Nhập category" : null,
+                      value == null || value.isEmpty ? "Nhập danh mục" : null,
                 ),
                 const SizedBox(height: 20),
 
+                // SubCategory
+                TextFormField(
+                  controller: _subCategoryController,
+                  decoration: InputDecoration(
+                    labelText: "Phương pháp nấu",
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                  ),
+                  validator: (value) => value == null || value.isEmpty
+                      ? "Nhập subCategory"
+                      : null,
+                ),
+
+                SizedBox(height: 20),
                 // Nguyên liệu
                 const Text(
                   "Nguyên liệu:",
@@ -151,8 +204,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                       IconButton(
                         icon: Image.asset(
                           "assets/icons/icon_app/delete.png",
-                          width: 30,
-                          height: 30,
+                          width: 28,
+                          height: 28,
                         ),
                         onPressed: () {
                           setState(() {
@@ -202,7 +255,11 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
+                        icon: Image.asset(
+                          "assets/icons/icon_app/delete.png",
+                          width: 28,
+                          height: 28,
+                        ),
                         onPressed: () {
                           setState(() {
                             _instructionControllers.removeAt(index).dispose();

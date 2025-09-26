@@ -20,6 +20,7 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
   late List<TextEditingController> _ingredientQuantityControllers;
   late List<TextEditingController> _instructionControllers;
   late TextEditingController _categoryController;
+  late TextEditingController _subCategoryController;
 
   @override
   void initState() {
@@ -40,6 +41,10 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
         .toList();
 
     _categoryController = TextEditingController(text: widget.recipe.category);
+
+    _subCategoryController = TextEditingController(
+      text: widget.recipe.subCategory,
+    );
   }
 
   @override
@@ -66,6 +71,7 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
       }),
       instructions: _instructionControllers.map((c) => c.text.trim()).toList(),
       category: _categoryController.text.trim(),
+      subCategory: "",
     );
 
     try {
@@ -95,8 +101,8 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/icon_app/save.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               onPressed: _saveRecipe,
             ),
@@ -111,9 +117,11 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
             // 🔹 Tên món ăn
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Tên món",
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
               validator: (value) =>
                   value == null || value.isEmpty ? "Nhập tên món ăn" : null,
@@ -123,12 +131,28 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
             // 🔹 Category
             TextFormField(
               controller: _categoryController,
-              decoration: const InputDecoration(
-                labelText: "Phân loại (Category)",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: "Nguyên liệu chính",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
               validator: (value) =>
                   value == null || value.isEmpty ? "Nhập category" : null,
+            ),
+            const SizedBox(height: 20),
+
+            // SubCategory
+            TextFormField(
+              controller: _subCategoryController,
+              decoration: InputDecoration(
+                labelText: "Phương pháp nấu",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              validator: (value) =>
+                  value == null || value.isEmpty ? "Nhập subCategory" : null,
             ),
             const SizedBox(height: 20),
 
@@ -160,8 +184,8 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
                   IconButton(
                     icon: Image.asset(
                       "assets/icons/icon_app/delete.png",
-                      width: 30,
-                      height: 30,
+                      width: 28,
+                      height: 28,
                     ),
                     onPressed: () {
                       setState(() {
@@ -211,8 +235,8 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
                     child: IconButton(
                       icon: Image.asset(
                         "assets/icons/icon_app/delete.png",
-                        width: 30,
-                        height: 30,
+                        width: 28,
+                        height: 28,
                       ),
                       onPressed: () {
                         setState(() {

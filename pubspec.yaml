@@ -13,6 +13,24 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  flutter_native_splash: ^2.4.6
+  flutter_launcher_icons: ^0.14.4
+  image_picker: ^1.2.0
+  fl_chart: ^1.1.1
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon_app/icon_app_light.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/icons/icon_app/icon_app_light.png
+  android: true
+  ios: true
+
 
 dev_dependencies:
   flutter_test:
@@ -43,12 +61,14 @@ flutter:
     - assets/icons/logo/
     - assets/icons/cooking/
     - assets/icons/icon_app/
+    - assets/icons/recipe/
     - assets/animations/login.json
     - assets/animations/order-complete-car-delivery-animation.json
     - assets/animations/register.json
     - assets/animations/Green Login.json
     - assets/animations/Jurupoles - Login.json
     - assets/animations/j28uCA3Jg9.json
+    - assets/icons/icon_app/icon_app_light.png
   uses-material-design: true
 
 

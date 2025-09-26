@@ -3,6 +3,7 @@ import 'package:admin_mobile/recipes/recipe_model.dart';
 import 'package:admin_mobile/recipes/recipe_service.dart';
 import 'package:flutter/material.dart';
 
+import '../helper/category_icon_helper.dart';
 import 'add_recipe_screen.dart';
 
 class RecipeListScreen extends StatefulWidget {
@@ -29,14 +30,9 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
     );
 
     if (newRecipe != null && newRecipe is Recipe) {
-      // Sau khi thêm xong, reload lại list
       setState(() {
         recipesFuture = service.getAllRecipes();
       });
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("✅ Thêm món ăn thành công")));
     }
   }
 
@@ -45,14 +41,14 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
       await service.deleteRecipe(id);
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text("✅ Xóa món ăn thành công")));
+      ).showSnackBar(const SnackBar(content: Text("Xóa món ăn thành công")));
       setState(() {
-        recipesFuture = service.getAllRecipes(); // reload lại list
+        recipesFuture = service.getAllRecipes();
       });
     } catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("❌ Lỗi: $e")));
+      ).showSnackBar(SnackBar(content: Text("Lỗi: $e")));
     }
   }
 
@@ -67,12 +63,12 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/icon_app/add.png",
-                width: 30,
-                height: 30,
+                width: 28,
+                height: 28,
               ),
               onPressed: addRecipe,
             ),
@@ -91,54 +87,111 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
           }
 
           final recipes = snapshot.data!;
-          return ListView.separated(
+
+          // ✅ Gom nhóm theo category (xử lý null)
+          final Map<String, List<Recipe>> grouped = {};
+          for (var recipe in recipes) {
+            final category = recipe.category ?? "Khác";
+            grouped.putIfAbsent(category, () => []);
+            grouped[category]!.add(recipe);
+          }
+
+          return ListView(
             padding: const EdgeInsets.all(12),
-            itemCount: recipes.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final recipe = recipes[index];
+            children: grouped.entries.map((entry) {
+              final category = entry.key;
+              final items = entry.value;
+
+              // ✅ Gom nhóm theo subCategory
+              final Map<String, List<Recipe>> subGrouped = {};
+              for (var recipe in items) {
+                final sub = recipe.subCategory ?? "Khác";
+                subGrouped.putIfAbsent(sub, () => []);
+                subGrouped[sub]!.add(recipe);
+              }
 
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                elevation: 3,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.teal.shade100,
-                    child: Image.asset(
-                      "assets/icons/category/dinner.png",
-                      width: 30,
-                      height: 30,
-                    ),
+                elevation: 4,
+                child: ExpansionTile(
+                  leading: Image.asset(
+                    CategoryIconHelper.getIcon(category ?? "Khác"),
+                    width: 28,
+                    height: 28,
                   ),
                   title: Text(
-                    recipe.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    "Nguyên liệu: ${recipe.ingredients.length}",
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  trailing: IconButton(
-                    icon: Image.asset(
-                      "assets/icons/icon_app/garbage.png",
-                      width: 30,
-                      height: 30,
+                    category,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                    onPressed: () => _deleteRecipe(recipe.id),
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => RecipeDetailScreen(recipe: recipe),
+                  children: subGrouped.entries.map((subEntry) {
+                    final subCategory = subEntry.key;
+                    final subItems = subEntry.value;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: ExpansionTile(
+                        leading: Image.asset(
+                          "assets/icons/recipe/cookingchef.png",
+                          width: 28,
+                          height: 28,
+                        ),
+                        title: Text(
+                          subCategory,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        children: subItems.map((recipe) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              // backgroundColor: Colors.teal.shade100,
+                              child: Image.asset(
+                                "assets/icons/category/dinner.png",
+                                width: 28,
+                                height: 28,
+                              ),
+                            ),
+                            title: Text(
+                              recipe.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Nguyên liệu: ${recipe.ingredients.length}",
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            trailing: IconButton(
+                              icon: Image.asset(
+                                "assets/icons/icon_app/garbage.png",
+                                width: 26,
+                                height: 26,
+                              ),
+                              onPressed: () => _deleteRecipe(recipe.id),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      RecipeDetailScreen(recipe: recipe),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
                       ),
                     );
-                  },
+                  }).toList(),
                 ),
               );
-            },
+            }).toList(),
           );
         },
       ),

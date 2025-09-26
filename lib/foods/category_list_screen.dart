@@ -24,7 +24,12 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Danh mục")),
+      appBar: AppBar(
+        title: const Text(
+          "Quản lý thực phẩm",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
       body: FutureBuilder<List<Category>>(
         future: categoriesFuture,
         builder: (context, snapshot) {

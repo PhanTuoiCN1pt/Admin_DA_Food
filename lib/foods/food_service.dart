@@ -34,6 +34,18 @@ class FoodService {
     }
   }
 
+  Future<List<SubCategory>> getSubCategories(String categoryId) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/categories/$categoryId/subCategories"),
+    );
+    if (response.statusCode == 200) {
+      final List data = json.decode(response.body);
+      return data.map((e) => SubCategory.fromJson(e)).toList();
+    } else {
+      throw Exception("Failed to load subCategories");
+    }
+  }
+
   // Thêm subCategory
   Future<void> addSubCategory(
     String categoryId,

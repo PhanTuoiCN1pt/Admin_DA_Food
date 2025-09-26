@@ -22,6 +22,12 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Quản lý người dùng",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+      ),
       body: FutureBuilder<List<UserModel>>(
         future: _futureUsers,
         builder: (context, snapshot) {
@@ -41,8 +47,8 @@ class _UserListScreenState extends State<UserListScreen> {
               return ListTile(
                 leading: Image.asset(
                   "assets/icons/icon_app/resume.png",
-                  width: 30,
-                  height: 30,
+                  width: 28,
+                  height: 28,
                 ),
                 title: Text(u.name),
                 subtitle: Text(u.email),
@@ -52,14 +58,51 @@ class _UserListScreenState extends State<UserListScreen> {
                     IconButton(
                       icon: Image.asset(
                         "assets/icons/icon_app/unfollow.png",
-                        width: 30,
-                        height: 30,
+                        width: 26,
+                        height: 26,
                       ),
                       onPressed: () async {
-                        await userService.deleteUser(u.id);
-                        setState(() {
-                          _futureUsers = userService.getAllUsers();
-                        });
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("Xác nhận"),
+                              content: Text(
+                                "Bạn có chắc chắn muốn xóa người dùng '${u.name}' không?",
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text("Hủy"),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                  ),
+                                  child: const Text(
+                                    "Xóa",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+
+                        if (confirm == true) {
+                          await userService.deleteUser(u.id);
+                          setState(() {
+                            _futureUsers = userService.getAllUsers();
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Đã xóa người dùng ${u.name}"),
+                            ),
+                          );
+                        }
                       },
                     ),
                   ],
