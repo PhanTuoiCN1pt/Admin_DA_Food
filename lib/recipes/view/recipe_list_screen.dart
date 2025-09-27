@@ -1,9 +1,9 @@
-import 'package:admin_mobile/recipes/recipe_detail_screen.dart';
-import 'package:admin_mobile/recipes/recipe_model.dart';
-import 'package:admin_mobile/recipes/recipe_service.dart';
+import 'package:admin_mobile/recipes/model/recipe_model.dart';
+import 'package:admin_mobile/recipes/service/recipe_service.dart';
+import 'package:admin_mobile/recipes/view/recipe_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../helper/category_icon_helper.dart';
+import '../../helper/category_icon_helper.dart';
 import 'add_recipe_screen.dart';
 
 class RecipeListScreen extends StatefulWidget {
@@ -88,7 +88,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
 
           final recipes = snapshot.data!;
 
-          // ✅ Gom nhóm theo category (xử lý null)
+          // Gom nhóm theo category (xử lý null)
           final Map<String, List<Recipe>> grouped = {};
           for (var recipe in recipes) {
             final category = recipe.category ?? "Khác";
@@ -102,7 +102,7 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
               final category = entry.key;
               final items = entry.value;
 
-              // ✅ Gom nhóm theo subCategory
+              // Gom nhóm theo subCategory
               final Map<String, List<Recipe>> subGrouped = {};
               for (var recipe in items) {
                 final sub = recipe.subCategory ?? "Khác";

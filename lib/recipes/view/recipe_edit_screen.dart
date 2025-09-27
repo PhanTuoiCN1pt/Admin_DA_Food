@@ -1,5 +1,5 @@
-import 'package:admin_mobile/recipes/recipe_model.dart';
-import 'package:admin_mobile/recipes/recipe_service.dart';
+import 'package:admin_mobile/recipes/model/recipe_model.dart';
+import 'package:admin_mobile/recipes/service/recipe_service.dart';
 import 'package:flutter/material.dart';
 
 class RecipeEditScreen extends StatefulWidget {
@@ -82,7 +82,7 @@ class _RecipeEditScreenState extends State<RecipeEditScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("❌ Lỗi khi cập nhật: $e")));
+      ).showSnackBar(SnackBar(content: Text("Lỗi khi cập nhật: $e")));
     }
   }
 

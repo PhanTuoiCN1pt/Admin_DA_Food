@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class AddFoodScreen extends StatefulWidget {
+class FoodEditScreen extends StatefulWidget {
   final String categoryId;
   final String? subId;
   final String? initLabel;
   final String? initIcon;
 
-  const AddFoodScreen({
+  const FoodEditScreen({
     super.key,
     required this.categoryId,
     this.subId,
@@ -15,19 +15,16 @@ class AddFoodScreen extends StatefulWidget {
   });
 
   @override
-  State<AddFoodScreen> createState() => _SubCategoryEditScreenState();
+  State<FoodEditScreen> createState() => _SubCategoryEditScreenState();
 }
 
-class _SubCategoryEditScreenState extends State<AddFoodScreen> {
+class _SubCategoryEditScreenState extends State<FoodEditScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _labelController;
-  String? _selectedIcon;
+  String? _selectedIcon; // icon được chọn
 
-  // Danh sách icon trong assets (bạn có thể load từ server hoặc constants)
-  final List<String> _icons = [
-    "assets/icons/category/food.png",
-    "assets/icons/meats/beef.png",
-  ];
+  // Danh sách icon trong assets
+  final List<String> _icons = ["assets/icons/category/food.png"];
 
   @override
   void initState() {
@@ -46,7 +43,7 @@ class _SubCategoryEditScreenState extends State<AddFoodScreen> {
     if (_formKey.currentState!.validate()) {
       Navigator.pop(context, {
         "label": _labelController.text.trim(),
-        "icon": _selectedIcon,
+        "icon": _selectedIcon, // icon path
         "subId": widget.subId,
       });
     }

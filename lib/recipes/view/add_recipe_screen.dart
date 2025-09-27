@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'recipe_model.dart';
-import 'recipe_service.dart';
+import '../model/recipe_model.dart';
+import '../service/recipe_service.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   const AddRecipeScreen({super.key});
@@ -60,13 +60,13 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text("✅ Thêm recipe thành công")));
+      ).showSnackBar(const SnackBar(content: Text("Thêm recipe thành công")));
       Navigator.pop(context, created);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("❌ Lỗi khi thêm recipe: $e")));
+      ).showSnackBar(SnackBar(content: Text("Lỗi khi thêm recipe: $e")));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -108,7 +108,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     labelText: "Tên món",
                     labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15), // bo góc 15
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -117,8 +117,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         width: 2,
                       ),
                     ),
-                    filled: true, // tô nền nhẹ
-                    fillColor: Colors.grey[100], // màu nền nhẹ
+                    filled: true,
+                    fillColor: Colors.grey[100],
                   ),
                   validator: (value) =>
                       value == null || value.isEmpty ? "Nhập tên món ăn" : null,

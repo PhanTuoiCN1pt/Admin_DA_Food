@@ -3,16 +3,16 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../connect/api_url.dart';
+import '../../connect/api_url.dart';
 
 class DashboardService {
-  final String baseUrl = apiUrl; // ⚡ đổi sang server của bạn
+  final String baseUrl = apiUrl;
 
   Future<int> getUserCount() async {
     final res = await http.get(Uri.parse("$baseUrl/api/users/all"));
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
-      return data.length; // giả sử API trả về List
+      return data.length;
     } else {
       throw Exception("Lỗi khi lấy user");
     }

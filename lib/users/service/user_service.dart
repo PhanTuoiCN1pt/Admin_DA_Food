@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:admin_mobile/users/user_model.dart';
+import 'package:admin_mobile/users/model/user_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../connect/api_url.dart';
+import '../../connect/api_url.dart';
 
 class UserService {
   static String baseUrl = "$apiUrl/api/users";
@@ -16,7 +16,7 @@ class UserService {
       final List<dynamic> data = jsonDecode(response.body);
       return data.map((e) => UserModel.fromJson(e)).toList();
     } else {
-      throw Exception("Failed to fetch users");
+      throw Exception("Lỗi hiển thị người dùng");
     }
   }
 
@@ -27,9 +27,9 @@ class UserService {
     if (response.statusCode == 200) {
       return UserModel.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 404) {
-      throw Exception("User not found");
+      throw Exception("Không tìm thấy User");
     } else {
-      throw Exception("Failed to fetch user");
+      throw Exception("Lỗi hiển thị người dùng");
     }
   }
 
@@ -44,9 +44,9 @@ class UserService {
     if (response.statusCode == 200) {
       return UserModel.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 404) {
-      throw Exception("User not found");
+      throw Exception("Không tìm thấy User");
     } else {
-      throw Exception("Failed to update user");
+      throw Exception("Lỗi hiển thị người dùng");
     }
   }
 
@@ -57,9 +57,9 @@ class UserService {
     if (response.statusCode == 200) {
       return;
     } else if (response.statusCode == 404) {
-      throw Exception("User not found");
+      throw Exception("Không tìm thấy User");
     } else {
-      throw Exception("Failed to delete user");
+      throw Exception("Lỗi hiển thị người dùng");
     }
   }
 
@@ -74,7 +74,7 @@ class UserService {
     if (response.statusCode == 201) {
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Failed to create user");
+      throw Exception("Lỗi thêm người dùng");
     }
   }
 }

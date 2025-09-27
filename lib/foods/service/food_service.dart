@@ -3,11 +3,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../connect/api_url.dart';
-import 'category_model.dart';
+import '../../connect/api_url.dart';
+import '../model/category_model.dart';
 
 class FoodService {
-  final String baseUrl = "$apiUrl/api"; // đổi sang IP server của bạn
+  final String baseUrl = "$apiUrl/api";
 
   // Lấy toàn bộ categories
   Future<List<Category>> getCategories() async {

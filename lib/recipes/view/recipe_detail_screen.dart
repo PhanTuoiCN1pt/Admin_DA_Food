@@ -1,5 +1,5 @@
-import 'package:admin_mobile/recipes/recipe_edit_screen.dart';
-import 'package:admin_mobile/recipes/recipe_model.dart';
+import 'package:admin_mobile/recipes/model/recipe_model.dart';
+import 'package:admin_mobile/recipes/view/recipe_edit_screen.dart';
 import 'package:flutter/material.dart';
 
 class RecipeDetailScreen extends StatefulWidget {

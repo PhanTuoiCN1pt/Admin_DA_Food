@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../model/category_model.dart';
+import '../service/food_service.dart';
 import 'add_food_screen.dart';
-import 'category_model.dart';
 import 'food_edit_screen.dart';
-import 'food_service.dart';
 
 class FoodListScreen extends StatefulWidget {
   final String categoryId;

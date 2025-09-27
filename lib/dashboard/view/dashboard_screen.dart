@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'dashboard_service.dart';
+import '../service/dashboard_service.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});
@@ -41,7 +41,7 @@ class _DashboardHomeState extends State<DashboardHome> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text("❌ Lỗi: ${snapshot.error}"));
+          return Center(child: Text("Lỗi: ${snapshot.error}"));
         } else if (!snapshot.hasData) {
           return const Center(child: Text("Không có dữ liệu"));
         }

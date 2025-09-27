@@ -1,10 +1,9 @@
-import 'package:admin_mobile/foods/category_list_screen.dart';
-import 'package:admin_mobile/notifications/notification_list_screen.dart';
+import 'package:admin_mobile/foods/view/category_list_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'dashboard/dashboard_screen.dart';
-import 'recipes/recipe_list_screen.dart';
-import 'users/user_list_screen.dart';
+import 'dashboard/view/dashboard_screen.dart';
+import 'recipes/view/recipe_list_screen.dart';
+import 'users/view/user_list_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -21,7 +20,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     UserListScreen(),
     CategoryListScreen(),
     RecipeListScreen(),
-    NotificationListScreen(),
   ];
 
   void _onSelect(int index) {

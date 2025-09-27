@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'category_model.dart';
+import '../model/category_model.dart';
+import '../service/food_service.dart';
 import 'food_list_screen.dart';
-import 'food_service.dart';
 
 class CategoryListScreen extends StatefulWidget {
   const CategoryListScreen({super.key});
